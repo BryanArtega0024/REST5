@@ -1,6 +1,5 @@
-name: Docker Image CI
-
 on:
+  
   push:
     branches: [ "main" ]
   pull_request:
@@ -9,36 +8,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+  
+ 
+      NEW_VERSION: <version_number>
     steps:
-    - name: Checkout code
+    - name: Checkout source code
       uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
 
-    - name: Git Semantic Version
-      uses: PaulHatch/semantic-version@v4.0.3
-      with:
-        major_pattern: "major:"
-        minor_pattern: "feat:"
-        format: "${major}.${minor}.${patch}-prerelease${increment}"
-      id: version
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
-    - name: Docker Login
-      env:
-        DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Build Docker image
+    
       run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        docker buildx build .
+        --file Dockerfile
+        --tag "briian0024/nuevorest:${{ env.NEW_VERSION }}"
+        --platform linux/amd64
 
-    - name: Build Docker Image
-      run: |
-        export NEW_VERSION=${{ steps.version.outputs.version }}
-        docker build -t briian0024/nuevorest:$NEW_VERSION .
-        docker build -t briian0024/nuevorest:latest .
+    - name: Login to Docker Hub
+      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    - name: Push Docker Image
-      run: |
-        export NEW_VERSION=${{ steps.version.outputs.version }}
-        docker push briian0024/nuevorest:$NEW_VERSION
-        docker push briian0024/nuevorest:latest
+    - name: Push Docker image to Docker Hub
+      run: docker push "briian0024/nuevorest:${{ env.NEW_VERSION }}"
+
+      
