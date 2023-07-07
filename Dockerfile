@@ -5,7 +5,6 @@ FROM node:14
 WORKDIR /app
 
 # Copiar los archivos del proyecto al contenedor
-COPY index.js ./
 COPY ..
 
 # Instalar las dependencias del proyecto
