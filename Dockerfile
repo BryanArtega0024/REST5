@@ -12,3 +12,4 @@ EXPOSE 3000
 
 # Comando para ejecutar la aplicación cuando se inicie el contenedor
 CMD [ "node", "server.js" ]
+
