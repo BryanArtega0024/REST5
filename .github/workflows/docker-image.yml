@@ -16,12 +16,16 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Generate Random Number
+      id: random
+      run: echo "::set-output name=random_number::$RANDOM"
+
     - name: Git Semantic Version
       uses: PaulHatch/semantic-version@v4.0.3
       with:
         major_pattern: "major:"
         minor_pattern: "feat:"
-        format: "${major}.${minor}.${patch}-prerelease${increment}"
+        format: "${major}.${minor}.${patch}-prerelease${increment}.${{ steps.random.outputs.random_number }}"
       id: version
 
     - name: Docker Login
