@@ -5,10 +5,7 @@ FROM node:14
 WORKDIR /app
 
 # Copiar los archivos del proyecto al contenedor
-COPY ..
-
-# Instalar las dependencias del proyecto
-RUN npm install
+COPY index.js ./
 
 # Exponer el puerto 3000
 EXPOSE 3000
