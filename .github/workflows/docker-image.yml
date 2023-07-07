@@ -48,3 +48,5 @@ jobs:
       run: |
         docker push briian0024/nuevorest:$NEW_VERSION
         docker push briian0024/nuevorest:latest
+
+        
