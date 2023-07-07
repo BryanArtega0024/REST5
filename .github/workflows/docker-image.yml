@@ -17,8 +17,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
-    - name: Build Docker image
-      uses: docker/build-push-action@v3
+    
       with:
         context: .
         file: ./Dockerfile
