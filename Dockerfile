@@ -5,8 +5,8 @@ FROM node:14
 WORKDIR /app
 
 # Copiar los archivos del proyecto al contenedor
-COPY package*.json ./
-COPY server.js ./
+COPY index.js ./
+COPY ..
 
 # Instalar las dependencias del proyecto
 RUN npm install
